@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AutoresizingScrollView<RootView: UIView>: UIScrollView {
+public class AutoresizingScrollView<RootView: UIView>: UIScrollView {
     public weak var rootView: RootView? {
         willSet {
             rootView?.removeFromSuperview()
