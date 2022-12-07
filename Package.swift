@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "AutoresizingScrollView",
     platforms: [
-        .iOS("9.0"),
+        .iOS("6.0"),
         .tvOS("9.0")
     ],
     
