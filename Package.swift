@@ -6,8 +6,8 @@ import PackageDescription
 let package = Package(
     name: "AutoresizingScrollView",
     platforms: [
-        .iOS("6.0"),
-        .tvOS("9.0")
+        .iOS(.v11),
+        .tvOS(.v11)
     ],
     
     products: [
@@ -25,5 +25,5 @@ let package = Package(
             name: "AutoresizingScrollViewTests",
             dependencies: ["AutoresizingScrollView"]),
     ],
-    swiftLanguageVersions: [.version("5.7")]
+    swiftLanguageVersions: [.v5]
 )
