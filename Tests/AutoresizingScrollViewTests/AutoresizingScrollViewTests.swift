@@ -31,23 +31,49 @@ final class AutoresizingScrollViewTests: XCTestCase {
         return scrollView
     }
     
-    private func createView(for scrollView: AutoresizingScrollView<UIView>, height: CGFloat, anotherView: UIView?, space: CGFloat?) -> UIView {
+    private func createView(for scrollView: AutoresizingScrollView<UIView>, size: CGFloat, anotherView: UIView?, space: CGFloat?, isHorizontal: Bool) -> UIView {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         scrollView.rootView!.addSubview(view)
-        let resultLeadingConstraint = view.leadingAnchor.constraint(equalTo: scrollView.rootView!.leadingAnchor)
-        let resultTrailingConstraint = view.trailingAnchor.constraint(equalTo: scrollView.rootView!.trailingAnchor)
-        let resultHeightConstraint = view.heightAnchor.constraint(equalToConstant: height)
+        let firstResultBasicConstraint, secondResultBasicConstraint: NSLayoutConstraint
+        if isHorizontal {
+            firstResultBasicConstraint = view.topAnchor.constraint(equalTo: scrollView.rootView!.topAnchor)
+            secondResultBasicConstraint = view.bottomAnchor.constraint(equalTo: scrollView.rootView!.bottomAnchor)
+        } else {
+            firstResultBasicConstraint = view.leadingAnchor.constraint(equalTo: scrollView.rootView!.leadingAnchor)
+            secondResultBasicConstraint = view.trailingAnchor.constraint(equalTo: scrollView.rootView!.trailingAnchor)
+        }
+        let resultSizeConstraint: NSLayoutConstraint
+        if isHorizontal {
+            resultSizeConstraint = view.widthAnchor.constraint(equalToConstant: size)
+        } else {
+            resultSizeConstraint = view.heightAnchor.constraint(equalToConstant: size)
+        }
         let additionalConstraints: [NSLayoutConstraint]
         if let anotherView, let space {
-            additionalConstraints = [
-                view.topAnchor.constraint(equalTo: anotherView.bottomAnchor, constant: space),
-                view.bottomAnchor.constraint(equalTo: scrollView.rootView!.bottomAnchor)
-            ]
+            if isHorizontal {
+                additionalConstraints = [
+                    view.leadingAnchor.constraint(equalTo: anotherView.trailingAnchor, constant: space),
+                    view.trailingAnchor.constraint(equalTo: scrollView.rootView!.trailingAnchor)
+                ]
+            } else {
+                additionalConstraints = [
+                    view.topAnchor.constraint(equalTo: anotherView.bottomAnchor, constant: space),
+                    view.bottomAnchor.constraint(equalTo: scrollView.rootView!.bottomAnchor)
+                ]
+            }
         } else {
-            additionalConstraints = [view.topAnchor.constraint(equalTo: scrollView.rootView!.topAnchor)]
+            if isHorizontal {
+                additionalConstraints = [view.leadingAnchor.constraint(equalTo: scrollView.rootView!.leadingAnchor)]
+            } else {
+                additionalConstraints = [view.topAnchor.constraint(equalTo: scrollView.rootView!.topAnchor)]
+            }
         }
-        NSLayoutConstraint.activate([resultLeadingConstraint, resultTrailingConstraint, resultHeightConstraint] + additionalConstraints)
+        NSLayoutConstraint.activate([
+            firstResultBasicConstraint,
+            secondResultBasicConstraint,
+            resultSizeConstraint
+        ] + additionalConstraints)
         return view
     }
     
@@ -62,8 +88,8 @@ final class AutoresizingScrollViewTests: XCTestCase {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: viewWidth, height: viewHeight))
         let scrollView = createScrollView(for: view)
         
-        let view1 = createView(for: scrollView, height: firstViewHeight, anotherView: nil, space: nil)
-        _ = createView(for: scrollView, height: secondViewHeight, anotherView: view1, space: view1view2Space)
+        let view1 = createView(for: scrollView, size: firstViewHeight, anotherView: nil, space: nil, isHorizontal: false)
+        _ = createView(for: scrollView, size: secondViewHeight, anotherView: view1, space: view1view2Space, isHorizontal: false)
 
         view.setNeedsLayout()
         view.layoutIfNeeded()
@@ -88,27 +114,10 @@ final class AutoresizingScrollViewTests: XCTestCase {
         let contentWidth: CGFloat = firstViewWidth + view1view2Space + secondViewWidth
         
         let view = UIView(frame: CGRect(x: 0, y: 0, width: viewWidth, height: viewHeight))
-        
         let scrollView = createScrollView(for: view, fixedHeight: viewHeight)
                 
-        let view1 = UIView()
-        view1.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.rootView!.addSubview(view1)
-        let view1LeadingConstraint = view1.leadingAnchor.constraint(equalTo: scrollView.rootView!.leadingAnchor)
-        let view1BottomConstraint = view1.bottomAnchor.constraint(equalTo: scrollView.rootView!.bottomAnchor)
-        let view1TopConstraint = view1.topAnchor.constraint(equalTo: scrollView.rootView!.topAnchor)
-        let view1WidthConstraint1 = view1.widthAnchor.constraint(equalToConstant: firstViewWidth)
-        NSLayoutConstraint.activate([view1LeadingConstraint, view1BottomConstraint, view1TopConstraint, view1WidthConstraint1])
-                
-        let view2 = UIView()
-        view2.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.rootView!.addSubview(view2)
-        let view2TopConstraint = view2.topAnchor.constraint(equalTo: scrollView.rootView!.topAnchor)
-        let view2TrailingConstraint = view2.trailingAnchor.constraint(equalTo: scrollView.rootView!.trailingAnchor)
-        let view2BottomConstraint = view2.bottomAnchor.constraint(equalTo: scrollView.rootView!.bottomAnchor)
-        let view1view2LeadingConstraint = view1.trailingAnchor.constraint(equalTo: view2.leadingAnchor, constant: -view1view2Space)
-        let view2WidthConstraint = view2.widthAnchor.constraint(equalToConstant: secondViewWidth)
-        NSLayoutConstraint.activate([view2TopConstraint, view2TrailingConstraint, view2BottomConstraint, view1view2LeadingConstraint, view2WidthConstraint])
+        let view1 = createView(for: scrollView, size: firstViewWidth, anotherView: nil, space: nil, isHorizontal: true)
+        _ = createView(for: scrollView, size: secondViewWidth, anotherView: view1, space: view1view2Space, isHorizontal: true)
 
         view.setNeedsLayout()
         view.layoutIfNeeded()
