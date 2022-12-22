@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
   s.name = 'AutoresizingScrollView'
   s.version = '1.0.0'
   s.license = 'MIT'
-  s.summary = 'AutoresizingScrollView'
+  s.summary = 'For those who are "A very small UIScrollView with a very big content"'
   s.homepage = 'https://github.com/RomanPodymov/AutoresizingScrollView'
   s.authors = { 'Roman Podymov' => 'podymfrombryansk@yandex.ru' }
   s.social_media_url = 'https://twitter.com/RPodymov'
