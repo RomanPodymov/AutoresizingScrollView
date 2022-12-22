@@ -24,6 +24,15 @@ public class AutoresizingScrollView<RootView: UIView>: UIScrollView {
         }
     }
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    required init?(coder: NSCoder) {
+        nil
+    }
+    
     private func setupRootViewConstraints() {
         guard let rootView = rootView else {
             return

@@ -12,7 +12,6 @@ import XCTest
 final class AutoresizingScrollViewTests: XCTestCase {
     private func createScrollView(for view: UIView, fixedHeight: CGFloat? = nil) -> AutoresizingScrollView<UIView> {
         let scrollView = AutoresizingScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(scrollView)
         
         let scrollViewLeadingConstraint = scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
