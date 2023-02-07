@@ -32,7 +32,7 @@ class SecondController: UIViewController {
         
         scrollView.rootView = rootView
         
-        (0..<30).forEach {
+        (0..<100).forEach {
             let button = UIButton()
             button.backgroundColor = .red
             button.setTitleColor(.black, for: .normal)

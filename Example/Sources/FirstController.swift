@@ -32,7 +32,7 @@ class FirstController: UIViewController {
         
         scrollView.rootView = rootView
         
-        (0..<30).forEach {
+        (0..<100).forEach {
             let button = UIButton()
             button.addAction(UIAction { [unowned self] _ in
                 present(SecondController(), animated: true)
