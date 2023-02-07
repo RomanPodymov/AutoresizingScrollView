@@ -1,0 +1,26 @@
+name: AutoresizingScrollViewExample
+options:
+  bundleIdPrefix: com.autoresizingscrollview
+packages:
+  AutoresizingScrollView:
+    url: https://github.com/RomanPodymov/AutoresizingScrollView
+    from: 1.0.1
+targets:
+  ForiOS:
+    type: application
+    platform: iOS
+    deploymentTarget: "14.0"
+    sources: [Sources]
+    info:
+      path: Info.plist
+    dependencies:
+      - package: AutoresizingScrollView
+  FortvOS:
+    type: application
+    platform: tvOS
+    deploymentTarget: "14.0"
+    sources: [Sources]
+    info:
+      path: Info.plist
+    dependencies:
+      - package: AutoresizingScrollView
