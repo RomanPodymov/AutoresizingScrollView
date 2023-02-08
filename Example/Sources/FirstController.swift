@@ -30,7 +30,7 @@ class FirstController: UIViewController {
         rootView.spacing = 10
         rootView.axis = .vertical
         
-        scrollView.rootView = rootView
+        scrollView.set(rootView: rootView)
         
         (0..<100).forEach {
             let button = UIButton()

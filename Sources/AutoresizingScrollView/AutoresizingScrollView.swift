@@ -17,7 +17,7 @@ public typealias ScrollView = NSScrollView
 #endif
 
 public class AutoresizingScrollView<RootView: View>: ScrollView {
-    public weak var rootView: RootView?
+    public private(set) weak var rootView: RootView?
 
     private func setup(rootView: RootView) {
         self.rootView?.removeFromSuperview()
@@ -25,6 +25,8 @@ public class AutoresizingScrollView<RootView: View>: ScrollView {
         rootView.translatesAutoresizingMaskIntoConstraints = false
         #if canImport(AppKit)
         self.documentView?.addSubview(rootView)
+        #elseif canImport(UIKit)
+        addSubview(rootView)
         #endif
         setupRootViewConstraints()
     }
