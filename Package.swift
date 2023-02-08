@@ -7,7 +7,8 @@ let package = Package(
     name: "AutoresizingScrollView",
     platforms: [
         .iOS(.v11),
-        .tvOS(.v11)
+        .tvOS(.v11),
+        .macOS(.v10_13)
     ],
     
     products: [

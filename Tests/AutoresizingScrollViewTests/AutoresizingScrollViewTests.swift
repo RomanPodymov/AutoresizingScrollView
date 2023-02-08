@@ -10,7 +10,7 @@ import XCTest
 @testable import AutoresizingScrollView
 
 final class AutoresizingScrollViewTests: XCTestCase {
-    private func createScrollView(for view: UIView, fixedHeight: CGFloat? = nil) -> AutoresizingScrollView<UIView> {
+    private func createScrollView(for view: View, fixedHeight: CGFloat? = nil) -> AutoresizingScrollView<View> {
         let scrollView = AutoresizingScrollView()
         view.addSubview(scrollView)
         
@@ -25,13 +25,13 @@ final class AutoresizingScrollViewTests: XCTestCase {
         }
         NSLayoutConstraint.activate([scrollViewLeadingConstraint, scrollViewTrailingConstraint, scrollViewTopConstraint, additionalConstraint])
         
-        let rootView = UIView()
-        scrollView.rootView = rootView
+        let rootView = View()
+        scrollView.set(rootView: rootView)
         return scrollView
     }
     
-    private func createView(for scrollView: AutoresizingScrollView<UIView>, size: CGFloat, anotherView: UIView?, space: CGFloat?, isHorizontal: Bool) -> UIView {
-        let view = UIView()
+    private func createView(for scrollView: AutoresizingScrollView<View>, size: CGFloat, anotherView: View?, space: CGFloat?, isHorizontal: Bool) -> View {
+        let view = View()
         view.translatesAutoresizingMaskIntoConstraints = false
         scrollView.rootView!.addSubview(view)
         let firstResultBasicConstraint, secondResultBasicConstraint: NSLayoutConstraint
@@ -56,7 +56,7 @@ final class AutoresizingScrollViewTests: XCTestCase {
         return view
     }
     
-    private func additionalConstraints(view: UIView, scrollView: AutoresizingScrollView<UIView>, anotherView: UIView?, space: CGFloat?, isHorizontal: Bool) -> [NSLayoutConstraint] {
+    private func additionalConstraints(view: View, scrollView: AutoresizingScrollView<View>, anotherView: View?, space: CGFloat?, isHorizontal: Bool) -> [NSLayoutConstraint] {
         if let anotherView, let space {
             if isHorizontal {
                 return [
@@ -78,9 +78,11 @@ final class AutoresizingScrollViewTests: XCTestCase {
         }
     }
     
-    private func testUI(view: UIView, scrollView: AutoresizingScrollView<UIView>, viewWidth: CGFloat, viewHeight: CGFloat, contentWidth: CGFloat?, contentHeight: CGFloat?) {
+    private func testUI(view: View, scrollView: AutoresizingScrollView<View>, viewWidth: CGFloat, viewHeight: CGFloat, contentWidth: CGFloat?, contentHeight: CGFloat?) {
+        #if canImport(UIKit)
         view.setNeedsLayout()
         view.layoutIfNeeded()
+        #endif
         
         XCTAssertEqual(scrollView.frame.width, viewWidth)
         XCTAssertEqual(scrollView.frame.height, viewHeight)
@@ -101,7 +103,7 @@ final class AutoresizingScrollViewTests: XCTestCase {
         let view1view2Space: CGFloat = 100
         let contentHeight: CGFloat = firstViewHeight + view1view2Space + secondViewHeight
         
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: viewWidth, height: viewHeight))
+        let view = View(frame: CGRect(x: 0, y: 0, width: viewWidth, height: viewHeight))
         let scrollView = createScrollView(for: view)
         
         let view1 = createView(for: scrollView, size: firstViewHeight, anotherView: nil, space: nil, isHorizontal: false)
@@ -118,7 +120,7 @@ final class AutoresizingScrollViewTests: XCTestCase {
         let view1view2Space: CGFloat = 100
         let contentWidth: CGFloat = firstViewWidth + view1view2Space + secondViewWidth
         
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: viewWidth, height: viewHeight))
+        let view = View(frame: CGRect(x: 0, y: 0, width: viewWidth, height: viewHeight))
         let scrollView = createScrollView(for: view, fixedHeight: viewHeight)
                 
         let view1 = createView(for: scrollView, size: firstViewWidth, anotherView: nil, space: nil, isHorizontal: true)
