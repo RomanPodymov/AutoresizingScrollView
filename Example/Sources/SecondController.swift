@@ -6,16 +6,20 @@
 //  Copyright © 2023 AutoresizingScrollViewExample. All rights reserved.
 //
 
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
 import AutoresizingScrollView
 
-class SecondController: UIViewController {
+class SecondController: ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
         
-        let scrollView = AutoresizingScrollView<UIStackView>()
+        let scrollView = AutoresizingScrollView<StackView>()
         view.addSubview(scrollView)
         
         NSLayoutConstraint.activate([
@@ -25,18 +29,24 @@ class SecondController: UIViewController {
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         
-        let rootView = UIStackView()
+        let rootView = StackView()
+        #if canImport(AppKit)
+        rootView.alignment = .centerX
+        rootView.orientation = .vertical
+        #elseif canImport(UIKit)
         rootView.alignment = .center
-        rootView.spacing = 10
         rootView.axis = .horizontal
+        #endif
+        rootView.spacing = 10
         
         scrollView.rootView = rootView
         
         (0..<100).forEach {
-            let button = UIButton()
+            let button = Button()
+            button.title = String($0)
+            button.titleColor = .black
             button.backgroundColor = .red
-            button.setTitleColor(.black, for: .normal)
-            button.setTitle(String($0), for: .normal)
+            button.title = String($0)
             rootView.addArrangedSubview(button)
         }
     }

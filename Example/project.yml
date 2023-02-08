@@ -9,7 +9,7 @@ targets:
   ForiOS:
     type: application
     platform: iOS
-    deploymentTarget: "14.0"
+    deploymentTarget: "15.0"
     sources: [Sources]
     info:
       path: Info.plist
@@ -18,8 +18,17 @@ targets:
   FortvOS:
     type: application
     platform: tvOS
-    deploymentTarget: "14.0"
+    deploymentTarget: "15.0"
     sources: [Sources]
+    info:
+      path: Info.plist
+    dependencies:
+      - package: AutoresizingScrollView
+  FormacOS:
+    type: application
+    platform: macOS
+    deploymentTarget: "12.0"
+    sources: [Sources, macOS]
     info:
       path: Info.plist
     dependencies:

@@ -6,16 +6,27 @@
 //  Copyright © 2023 AutoresizingScrollViewExample. All rights reserved.
 //
 
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
 import AutoresizingScrollView
 
-class FirstController: UIViewController {
+class FirstController: ViewController {
+    #if canImport(AppKit)
+    override func loadView() {
+        self.view = View()
+        self.view.frame = NSRect(x: 0, y: 0, width: 300, height: 200)
+    }
+    #endif
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .blue
         
-        let scrollView = AutoresizingScrollView<UIStackView>()
+        let scrollView = AutoresizingScrollView<StackView>()
         view.addSubview(scrollView)
         
         NSLayoutConstraint.activate([
@@ -25,21 +36,23 @@ class FirstController: UIViewController {
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         
-        let rootView = UIStackView()
+        let rootView = StackView()
+        #if canImport(AppKit)
+        rootView.alignment = .centerX
+        rootView.orientation = .vertical
+        #elseif canImport(UIKit)
         rootView.alignment = .center
-        rootView.spacing = 10
         rootView.axis = .vertical
+        #endif
+        rootView.spacing = 10
         
         scrollView.set(rootView: rootView)
         
         (0..<100).forEach {
-            let button = UIButton()
-            button.addAction(UIAction { [unowned self] _ in
-                present(SecondController(), animated: true)
-            }, for: .primaryActionTriggered)
+            let button = Button()            
+            button.title = String($0)
+            button.titleColor = .black
             button.backgroundColor = .yellow
-            button.setTitleColor(.black, for: .normal)
-            button.setTitle(String($0), for: .normal)
             rootView.addArrangedSubview(button)
         }
     }
