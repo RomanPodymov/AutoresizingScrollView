@@ -101,7 +101,7 @@ public class AutoresizingScrollView<RootView: View>: ScrollView {
             return
         }
         let leadingConstraint, trailingConstraint, topConstraint, bottomContrant, heightContrant, widthContrant: NSLayoutConstraint
-        if #available(iOS 9.0, tvOS 9.0, macOS 10.13, *) {
+        if #available(iOS 9.0, tvOS 9.0, macOS 10.11, *) {
             leadingConstraint = rootView.leadingAnchor.constraint(equalTo: constraintsRoot.leadingAnchor)
             trailingConstraint = rootView.trailingAnchor.constraint(equalTo: constraintsRoot.trailingAnchor)
             topConstraint = rootView.topAnchor.constraint(equalTo: constraintsRoot.topAnchor)
@@ -109,12 +109,12 @@ public class AutoresizingScrollView<RootView: View>: ScrollView {
             heightContrant = rootView.heightAnchor.constraint(equalTo: constraintsRoot.heightAnchor)
             widthContrant = rootView.widthAnchor.constraint(equalTo: constraintsRoot.widthAnchor)
         } else {
-            leadingConstraint = NSLayoutConstraint(item: rootView, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 0.0)
-            trailingConstraint = NSLayoutConstraint(item: rootView, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: 0.0)
-            topConstraint = NSLayoutConstraint(item: rootView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 0.0)
-            bottomContrant = NSLayoutConstraint(item: rootView, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: 0.0)
-            heightContrant = NSLayoutConstraint(item: rootView, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 1.0, constant: 0.0)
-            widthContrant = NSLayoutConstraint(item: rootView, attribute: .width, relatedBy: .equal, toItem: self, attribute: .width, multiplier: 1.0, constant: 0.0)
+            leadingConstraint = NSLayoutConstraint(item: rootView, attribute: .leading, relatedBy: .equal, toItem: constraintsRoot, attribute: .leading, multiplier: 1.0, constant: 0.0)
+            trailingConstraint = NSLayoutConstraint(item: rootView, attribute: .trailing, relatedBy: .equal, toItem: constraintsRoot, attribute: .trailing, multiplier: 1.0, constant: 0.0)
+            topConstraint = NSLayoutConstraint(item: rootView, attribute: .top, relatedBy: .equal, toItem: constraintsRoot, attribute: .top, multiplier: 1.0, constant: 0.0)
+            bottomContrant = NSLayoutConstraint(item: rootView, attribute: .bottom, relatedBy: .equal, toItem: constraintsRoot, attribute: .bottom, multiplier: 1.0, constant: 0.0)
+            heightContrant = NSLayoutConstraint(item: rootView, attribute: .height, relatedBy: .equal, toItem: constraintsRoot, attribute: .height, multiplier: 1.0, constant: 0.0)
+            widthContrant = NSLayoutConstraint(item: rootView, attribute: .width, relatedBy: .equal, toItem: constraintsRoot, attribute: .width, multiplier: 1.0, constant: 0.0)
         }
         heightContrant.priority = .defaultLow
         widthContrant.priority = .defaultLow

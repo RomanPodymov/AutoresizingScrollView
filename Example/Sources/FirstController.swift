@@ -16,8 +16,8 @@ import AutoresizingScrollView
 class FirstController: ViewController {
     #if canImport(AppKit)
     override func loadView() {
-        self.view = View()
-        self.view.frame = NSRect(x: 0, y: 0, width: 300, height: 200)
+        view = View()
+        view.frame = NSRect(x: 0, y: 0, width: 300, height: 200)
     }
     #endif
     
@@ -49,11 +49,25 @@ class FirstController: ViewController {
         scrollView.set(rootView: rootView)
         
         (0..<100).forEach {
-            let button = Button()            
+            let button = Button()
+            #if canImport(UIKit)
+            button.addTarget(self, action: #selector(FirstController.onButtonTap), for: .primaryActionTriggered)
+            #elseif canImport(AppKit)
+            button.action = #selector(FirstController.onButtonTap)
+            #endif
             button.title = String($0)
             button.titleColor = .black
             button.backgroundColor = .yellow
             rootView.addArrangedSubview(button)
         }
+    }
+    
+    @objc
+    private func onButtonTap() {
+        #if canImport(UIKit)
+        present(SecondController(), animated: true)
+        #elseif canImport(AppKit)
+        presentAsModalWindow(SecondController())
+        #endif
     }
 }
