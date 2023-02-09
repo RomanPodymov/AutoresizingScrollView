@@ -39,6 +39,7 @@ extension NSView {
             guard let color = layer?.backgroundColor else { return nil }
             return NSColor(cgColor: color)
         }
+
         set {
             wantsLayer = true
             layer?.backgroundColor = newValue?.cgColor
@@ -50,7 +51,15 @@ extension NSView {
 extension Button {
     var titleColor: Color? {
         get {
-            nil
+            var result: Color?
+            attributedTitle.enumerateAttributes(
+                in: NSRange(location: 0, length: attributedTitle.length)
+            ) { attributes, _, _ in
+                if result == nil, let color = attributes[.foregroundColor] as? Color {
+                    result = color
+                }
+            }
+            return result
         }
         
         set {
